@@ -49,8 +49,9 @@ public class LoanCalc {
         	double balance = endBalance(loan, rate, n, g);
         	iterationCounter++;
 
-        	if (Math.abs(balance) <= epsilon)
-            	return g;
+        	if (balance <= 0)
+   				return g;
+			
 
         	g += increment;
     
