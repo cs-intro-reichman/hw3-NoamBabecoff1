@@ -1,3 +1,5 @@
+
+
 /** Functions for checking if a given string is an anagram. */
 public class Anagram {
 	public static void main(String args[]) {
@@ -26,24 +28,44 @@ public class Anagram {
 		System.out.println(pass ? "test passed" : "test Failed");
 	}  
 
-	// Returns true if the two given strings are anagrams, false otherwise.
 	public static boolean isAnagram(String str1, String str2) {
-		// Replace the following statement with your code
-		return false;
-	}
-	   
-	// Returns a preprocessed version of the given string: all the letter characters are converted
-	// to lower-case, and all the other characters are deleted, except for spaces, which are left
-	// as is. For example, the string "What? No way!" becomes "whatnoway"
-	public static String preProcess(String str) {
-		// Replace the following statement with your code
-		return "";
-	} 
-	   
-	// Returns a random anagram of the given string. The random anagram consists of the same
-	// characters as the given string, re-arranged in a random order. 
-	public static String randomAnagram(String str) {
-		// Replace the following statement with your code
-		return "";
-	}
+        String temp1 = preProcess(str1);
+        String temp2 = preProcess(str2);
+
+        if (temp1.length() != temp2.length()) return false;
+
+        while (temp1.length() > 0) {
+            char c = temp1.charAt(0);
+            int idx = temp2.indexOf(c);
+            if (idx == -1) return false;
+
+            temp1 = temp1.substring(1);
+            temp2 = temp2.substring(0, idx) + temp2.substring(idx + 1);
+        }
+        return true;
+    }
+       
+    public static String preProcess(String str) {
+        str = str.toLowerCase();
+        String result = "";
+
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if (c >= 'a' && c <= 'z')  // ONLY letters kept
+                result += c;
+        }
+        return result;
+    } 
+
+    public static String randomAnagram(String str) {
+        String temp = str;
+        String newStr = "";
+
+        for (int i = 0; i < str.length(); i++) {
+            int r = (int)(Math.random() * temp.length());
+            newStr += temp.charAt(r);
+            temp = temp.substring(0, r) + temp.substring(r + 1);
+        }
+        return newStr;
+    }
 }
