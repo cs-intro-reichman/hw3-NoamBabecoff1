@@ -29,61 +29,43 @@ public class Anagram {
 	}  
 
 	public static boolean isAnagram(String str1, String str2) {
-    String tempStr1 = preProcess(str1);
-    String tempStr2 = preProcess(str2);
+        String temp1 = preProcess(str1);
+        String temp2 = preProcess(str2);
 
-    int i = 0;
-    while (i < tempStr1.length()) {
-        int j = 0;
-        boolean found = false;
+        if (temp1.length() != temp2.length()) return false;
 
-        while (j < tempStr2.length()) {
-            if (tempStr1.charAt(i) == tempStr2.charAt(j)) {
-                // remove matched characters
-                tempStr1 = tempStr1.substring(0, i) + tempStr1.substring(i + 1);
-                tempStr2 = tempStr2.substring(0, j) + tempStr2.substring(j + 1);
-                found = true;
-                break; 
-            }
-            j++;
+        while (temp1.length() > 0) {
+            char c = temp1.charAt(0);
+            int idx = temp2.indexOf(c);
+            if (idx == -1) return false;
+
+            temp1 = temp1.substring(1);
+            temp2 = temp2.substring(0, idx) + temp2.substring(idx + 1);
         }
-
-        if (!found) {
-            return false; 
-        }
+        return true;
     }
+       
+    public static String preProcess(String str) {
+        str = str.toLowerCase();
+        String result = "";
 
-    return tempStr1.length() == 0 && tempStr2.length() == 0;
-}
-	   
-	// Returns a preprocessed version of the given string: all the letter characters are converted
-	// to lower-case, and all the other characters are deleted, except for spaces, which are left
-	// as is. For example, the string "What? No way!" becomes "whatnoway"
-	public static String preProcess(String str) {
-		str = str.toLowerCase();
-		int i = 0;
-		while(i < str.length())
-		{
-			char c = str.charAt(i);
-			if (c >= 'a' && c <= 'z'){
-				i++;
-			}else{
-				str = str.substring(0, i) + str.substring(i+1);
-			}
-		}
-		return str;
-	} 
-	   
-	// Returns a random anagram of the given string. The random anagram consists of the same
-	// characters as the given string, re-arranged in a random order. 
-	public static String randomAnagram(String str) {
-		String newStr ="";
-		String tempStr = str;
-		for (int i = 0; i < str.length(); i++) {
-			int random = (int)(Math.random()*tempStr.length());
-			newStr += tempStr.charAt(random);
-			tempStr = tempStr.substring(0,random) + tempStr.substring(random+1);
-		}
-		return newStr;
-	}
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if (c >= 'a' && c <= 'z')  // ONLY letters kept
+                result += c;
+        }
+        return result;
+    } 
+
+    public static String randomAnagram(String str) {
+        String temp = str;
+        String newStr = "";
+
+        for (int i = 0; i < str.length(); i++) {
+            int r = (int)(Math.random() * temp.length());
+            newStr += temp.charAt(r);
+            temp = temp.substring(0, r) + temp.substring(r + 1);
+        }
+        return newStr;
+    }
 }
